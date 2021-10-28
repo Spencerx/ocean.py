@@ -32,25 +32,25 @@ class ERC721Token(ContractBase):
         return self.events.TokenCreated()
 
     def initialize(
-        self,
-        owner: str,
-        name: str,
-        symbol: str,
-        erc20_factory_address: str,
-        from_wallet: Wallet,
+            self,
+            owner: str,
+            name: str,
+            symbol: str,
+            erc20_factory_address: str,
+            from_wallet: Wallet,
     ) -> str:
         return self.send_transaction(
             "initialize", (owner, name, symbol, erc20_factory_address), from_wallet
         )
 
     def set_metadata(
-        self,
-        metadata_state: int,
-        metadata_decryptor_url: str,
-        metadata_decryptor_address: str,
-        flags: bytes,
-        data: bytes,
-        from_wallet: Wallet,
+            self,
+            metadata_state: int,
+            metadata_decryptor_url: str,
+            metadata_decryptor_address: str,
+            flags: bytes,
+            data: bytes,
+            from_wallet: Wallet,
     ) -> str:
         self.send_transaction(
             "setMetaData",
@@ -81,7 +81,7 @@ class ERC721Token(ContractBase):
         )
 
     def add_to_create_erc20_list(
-        self, allowed_address: str, from_wallet: Wallet
+            self, allowed_address: str, from_wallet: Wallet
     ) -> str:
         return self.send_transaction(
             "addToCreateERC20List", (allowed_address,), from_wallet
@@ -94,7 +94,7 @@ class ERC721Token(ContractBase):
         return self.send_transaction("removeManager", (manager_address,), from_wallet)
 
     def execute_call(
-        self, operation: int, to: str, value: int, data: bytes, from_wallet: Wallet
+            self, operation: int, to: str, value: int, data: bytes, from_wallet: Wallet
     ) -> str:
         return self.send_transaction(
             "executeCall", (operation, to, value, data), from_wallet
@@ -113,7 +113,7 @@ class ERC721Token(ContractBase):
         return self.send_transaction("wrapV3DT", (datatoken, new_minter), from_wallet)
 
     def mint_v3_dt(
-        self, datatoken: str, to_address: str, value: int, from_wallet: Wallet
+            self, datatoken: str, to_address: str, value: int, from_wallet: Wallet
     ) -> str:
         return self.send_transaction(
             "mintV3DT", (datatoken, to_address, value), from_wallet
@@ -126,14 +126,14 @@ class ERC721Token(ContractBase):
         return self.send_transaction("removeV3Minter", (minter_address,), from_wallet)
 
     def transfer_from(
-        self, from_address: str, to_address: str, token_id: int, from_wallet: Wallet
+            self, from_address: str, to_address: str, token_id: int, from_wallet: Wallet
     ) -> str:
         return self.send_transaction(
             "transferFrom", (from_address, to_address, token_id), from_wallet
         )
 
     def safe_transfer_from(
-        self, from_address: str, to_address: str, token_id: int, from_wallet: Wallet
+            self, from_address: str, to_address: str, token_id: int, from_wallet: Wallet
     ) -> str:
         return self.send_transaction(
             "safeTransferFrom", (from_address, to_address, token_id), from_wallet
@@ -156,3 +156,6 @@ class ERC721Token(ContractBase):
 
     def get_permissions(self, user: str) -> list:
         return self.contract.caller.getPermissions(user)
+
+    def balance_of(self, account: str) -> int:
+        return self.contract.caller.balanceOf(account)
