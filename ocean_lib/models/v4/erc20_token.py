@@ -147,15 +147,19 @@ class ERC20Token(ContractBase):
             from_wallet,
         )
 
+    @enforce_types
     def transfer(self, to: str, amount: int, from_wallet: Wallet) -> str:
         return self.send_transaction("transfer", (to, amount), from_wallet)
 
+    @enforce_types
     def allowance(self, owner_address: str, spender_address: str) -> int:
         return self.contract.caller.allowance(owner_address, spender_address)
 
+    @enforce_types
     def approve(self, spender: str, amount: int, from_wallet: Wallet) -> str:
         return self.send_transaction("approve", (spender, amount), from_wallet)
 
+    @enforce_types
     def transferFrom(
         self, from_address: str, to_address: str, amount: int, from_wallet: Wallet
     ) -> str:
@@ -242,12 +246,9 @@ class ERC20Token(ContractBase):
         v: int,
         r: bytes,
         s: bytes,
-        from_wallet: Wallet,
     ) -> str:
-        return self.send_transaction(
-            "permit",
-            (owner_address, spender_address, value, deadline, v, r, s),
-            from_wallet,
+        return self.contract.caller.permit(
+            owner_address, spender_address, value, deadline, v, r, s
         )
 
     def get_address_length(self, array: List[str]) -> int:
@@ -270,10 +271,6 @@ class ERC20Token(ContractBase):
 
     def get_permissions(self, user: str) -> list:
         return self.contract.caller.permissions(user)
-
-
-class MockERC20(ERC20Token):
-    CONTRACT_NAME = "MockERC20"
 
 
 class MockERC20(ERC20Token):
